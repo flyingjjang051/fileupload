@@ -58,6 +58,7 @@ a {
       }
       input[type="text"],
       input[type="password"],
+      input[type="number"],
       select {
         height: 50px;
         border: 1px solid #ccc;
@@ -74,6 +75,14 @@ a {
         background-color: #111;
         padding: 10px;
       }
+      textarea {
+        flex-grow: 1;
+        height: 300px;
+        resize: none;
+        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
       #userID,
       #userPW,
       #userName,
@@ -83,9 +92,54 @@ a {
       #userJob {
         width: 200px;
       }
+      .genreList {
+        display: flex;
+        li {
+          margin-right: 20px;
+        }
+      }
     }
   }
 }
+.table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  .head {
+    display: table-header-group;
+    background-color: #ddd;
+    span {
+      display: table-cell;
+      border-top: 1px solid #333;
+      text-align: center;
+      padding: 20px 0;
+      font-weight: 700;
+    }
+  }
+  .body {
+    display: table-row-group;
+    width: 100%;
+    > li {
+      display: table-row;
+      width: 100%;
+      .column {
+        display: table-cell;
+        padding: 20px 0;
+        text-align: center;
+        border-bottom: 1px solid #d9d9d9;
+        vertical-align: middle;
+      }
+      .subject {
+        text-align: left;
+        &:hover {
+          text-decoration: underline;
+          color: rgb(3, 120, 199);
+        }
+      }
+    }
+  }
+}
+
 .btns {
   margin-top: 50px;
   display: flex;

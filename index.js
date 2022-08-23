@@ -39,7 +39,7 @@ const storage = multer.diskStorage({
 const fileUpload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
-  res.send("hello node");
+  res.render("index", { title: "main" });
 });
 app.get("/insert", (req, res) => {
   res.render("insert", { title: "insert" });
@@ -48,13 +48,13 @@ app.get("/insert", (req, res) => {
 app.post("/register", fileUpload.single("poster"), (req, res) => {
   const movieTitle = req.body.movieTitle;
   const date = req.body.date;
-  const genre = req.body.genre;
+  const genre = req.body.genre.join("/");
   const desc = req.body.desc;
   const point = req.body.point;
 
   // console.log(movieTitle);
   // console.log(date);
-  // console.log(genre);
+  console.log(genre);
   // console.log(desc);
   // console.log(point);
   // console.log(req.file);
@@ -70,10 +70,29 @@ app.post("/register", fileUpload.single("poster"), (req, res) => {
       point: point,
       poster: result.url,
     });
+    res.redirect("/list");
   });
-  res.send("파일 전송 완료");
 });
 
+app.get("/list", (req, res) => {
+  //db읽어서
+  //list만든 다음에
+  db.collection("movie")
+    .find()
+    .toArray((err, result) => {
+      res.render("list", { list: result, title: "list" }); //   페이지 내가 만들어서 보내주기
+    });
+});
+app.get("/movie/:title", (req, res) => {
+  //console.log(req.query.id);
+  console.log(req.params.title);
+  const movieTitle = req.params.title;
+  db.collection("movie").findOne({ movieTitle: movieTitle }, (err, result) => {
+    if (result) {
+      res.render("movie", { title: "detail", result: result });
+    }
+  });
+});
 app.listen(PORT, () => {
   console.log(`${PORT}에서 서버대기중`);
 });
